@@ -7,6 +7,11 @@ from slixmpp import ClientXMPP
 class HipchatClient(object):
     def __init__(self, broadcast_msg):
         self.broadcast_msg = broadcast_msg
+        self.conn_lock = asyncio.Lock()
+        # force locking now
+        # it seems that the xmpp server really doesn't like it when you send messages
+        # before the setup is complete, so lock everything until we've authed and joined all the rooms.
+        [_ for _ in self.conn_lock.acquire()]
 
         self.c = ClientXMPP(self.jabber_id, self.password)
         self.c.register_plugin('xep_0030')  # Service Discovery
@@ -37,6 +42,9 @@ class HipchatClient(object):
 
         for room, password in self.rooms:
             self.c.plugin['xep_0045'].joinMUC(room, self.nickname, password=password, wait=True)
+        print("unlocking")
+        self.conn_lock.release()
+        print("unlocked")
 
     def muc_message(self, msg):
         # yes, this is how you check to see if 'delay' is set on a message.
@@ -58,5 +66,6 @@ class HipchatClient(object):
 
     @asyncio.coroutine
     def send_msg(self, msg):
-        for room, _ in self.rooms:
-            self.c.send_message(mto=room, mbody=msg, mtype='groupchat')
+        with (yield from self.conn_lock):
+            for room, _ in self.rooms:
+                self.c.send_message(mto=room, mbody=msg, mtype='groupchat')
