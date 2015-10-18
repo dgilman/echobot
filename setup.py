@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(  name='echobot',
-        version='1.0',
+        version='1.1',
         description='echo messages across chat networks.  Supports Hipchat and IRC and can be easily extended to others.',
         author='David Gilman',
         url='https://github.com/dgilman/echobot',
