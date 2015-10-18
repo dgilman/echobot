@@ -1,0 +1,33 @@
+from echobot import HipchatClient, IRCClient, EchoBotServer
+
+raise Exception('Bot not configured, see config.py!')
+
+# To configure the bot:
+# 1. Delete the above exception
+# 2. For each client you'd like to use define and configure a class like the ones below
+# 3. Add the clases to the EchoBot class's clients = [] list.
+# 4. Run bot as `python config.py` and enjoy.
+
+class Hipchat(HipchatClient):
+    jabber_id = '1234_1234@chat.hipchat.com/echobot'
+    nickname = 'echobot'
+    password = 'password'
+    rooms = [('1234_room@conf.hipchat.com', 'room_password')]
+
+class IRC(IRCClient):
+    nick = 'echobot'
+    realname = 'echobot'
+    host = 'irc.oftc.net'
+    port = 6697
+    ssl = True
+    autojoins = '#echobot #worldofechobot'
+
+class EchoBot(EchoBotServer):
+    clients = [Hipchat, IRC]
+
+if __name__ == '__main__':
+    # enable debug logging - if you need it
+    #import logging
+    #logging.basicConfig(level=logging.DEBUG, format='%(levelname)-8s %(message)s')
+
+    EchoBot()
