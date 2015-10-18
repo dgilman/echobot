@@ -12,7 +12,7 @@ Install the echobot from pip
 
 You need to configure the bot with Python.  There's an [example config file in the repo](https://github.com/dgilman/echobot/blob/master/config.py.example).  Put this somewhere, fill it out and make it executable.
 
-To run the bot, just run your configuration file - it'll start the server processes up.
+To run the bot, just run your configuration file - it'll start the server processes up.  There is an [example systemd unit file in the repository](https://github.com/dgilman/echobot/blob/master/echobot.service).
 
 ## Extending the bot
 

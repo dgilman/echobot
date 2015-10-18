@@ -1,0 +1,11 @@
+[Unit]
+Description=echobot daemon
+After=network.target
+
+[Service]
+User=echobot
+Type=forking
+ExecStart=/bin/bash -c '. /home/echobot/echobot/venv/bin/activate; python3 /home/echobot/echobot/config.py &'
+
+[Install]
+WantedBy=multi-user.target
