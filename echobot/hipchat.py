@@ -42,9 +42,7 @@ class HipchatClient(object):
 
         for room, password in self.rooms:
             self.c.plugin['xep_0045'].joinMUC(room, self.nickname, password=password, wait=True)
-        print("unlocking")
         self.conn_lock.release()
-        print("unlocked")
 
     def muc_message(self, msg):
         # yes, this is how you check to see if 'delay' is set on a message.
